@@ -37,8 +37,8 @@ class SegmentationThread(QThread):
         self.update_message.emit("正在执行视盘视杯分割，请稍等...")
         if self.parent().gRecord is None:
             self.parent().gRecord = config.GlaucomaRecord(record_time=datetime.now())         # 记录第一次诊断的时间
-        self.parent().seg_model = config.model_load(model_path=config.MODEL_PATH, config_path=config.CONFIG_PATH, device=config.DEVICE)
-        result, result1, ratio = config.get_result(self.parent().seg_model, img_path=self.resourceImg)    # 获取预测结果
+        self.parent().seg_model = config.seg_model_load(model_path=config.SEG_MODEL_PATH)
+        result, result1, ratio = config.get_seg_result(self.parent().seg_model, img_path=self.resourceImg)    # 获取预测结果
         resize_scale = self.output_size / result.shape[0]                                      # 获取缩放比例
         # 将图片进行缩放
         im0 = cv2.resize(result, (0, 0), fx=resize_scale, fy=resize_scale)
@@ -76,7 +76,12 @@ class RecognizeThread(QThread):
             self.parent().gRecord = config.GlaucomaRecord(record_time=datetime.now())  # 记录第一次诊断的时间
         time.sleep(2)
         self.parent().recognizeFlag = 2
-        self.update_message.emit("图像识别结果为：no-GON，即未患青光眼")
+        self.parent().classfication_model = config.classfication_model_load(model_path=config.CLASSFICATION_MODEL_PATH)
+        result = config.get_classfication_result(self.parent().classfication_model, img_path=self.resourceImg)
+        if result == 0:
+            self.update_message.emit("图像识别结果为：no-GON，即未患青光眼")
+        else:
+            self.update_message.emit("图像识别结果为：GON，即患有青光眼")
 
 class MainWindow(QMainWindow):
     def __init__(self):
