@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="images">
+    <file>images/UI/成功.png</file>
+    <file>images/UI/失败-01.png</file>
+    <file>images/UI/返回.png</file>
+    <file>images/UI/logout.png</file>
+    <file>images/UI/small.png</file>
+    <file>images/UI/register.png</file>
+    <file>images/UI/login.png</file>
+    <file>images/UI/close (2).png</file>
+    <file>images/UI/close (1).png</file>
+    <file>images/UI/close.png</file>
+    <file>images/UI/cdut_log_256px.png</file>
+    <file>images/UI/cdut_logo.png</file>
+  </qresource>
+</RCC>
